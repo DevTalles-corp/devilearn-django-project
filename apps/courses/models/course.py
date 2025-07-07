@@ -10,7 +10,8 @@ class Course(models.Model):
     slug = models.SlugField(unique=True)
     overview = models.TextField()
     created_at = models.DateField(auto_now_add=True)
-    categories = models.ManyToManyField(Category, related_name='courses')
+    categories = models.ManyToManyField(
+        Category, through='CourseCategory', related_name='courses')
 
     class Meta:
         ordering = ['-created_at']
