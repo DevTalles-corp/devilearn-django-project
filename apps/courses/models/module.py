@@ -1,6 +1,7 @@
 
 from django.db import models
 from .course import Course
+from ..fields import OrderField
 
 
 class Module(models.Model):
@@ -9,6 +10,7 @@ class Module(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    order = OrderField(blank=True, for_fields=['course'])
 
     def __str__(self):
         return f"{self.course.title} - {self.title}"
