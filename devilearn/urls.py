@@ -24,5 +24,6 @@ urlpatterns = [
     path('dashboard/', include("apps.dashboard.urls")),
     path('profile/', include("apps.profiles.urls")),
     path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout')
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('instructor/', include("apps.courses.urls.instructor")),
 ]
