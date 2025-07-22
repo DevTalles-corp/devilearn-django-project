@@ -1,6 +1,6 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 from ..models import Course
 from django.urls import reverse, reverse_lazy
 
@@ -30,3 +30,14 @@ class CourseCreateView(InstructorRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class CourseUpdateView(InstructorRequiredMixin, UpdateView):
+    model = Course
+    fields = ['title', 'slug', 'overview',
+              'image', 'level', 'duration', 'categories']
+    template_name = 'instructor/course_form.html'
+    success_url = reverse_lazy('instructor:course_list')
+
+    def get_queryset(self):
+        return Course.objects.filter(owner=self.request.user)
