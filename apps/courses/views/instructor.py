@@ -1,8 +1,9 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from ..models import Course
+from ..models import Course, Module
 from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404
 
 
 class InstructorRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
@@ -50,3 +51,21 @@ class CourseDeleteView(InstructorRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Course.objects.filter(owner=self.request.user)
+
+# Module Views
+
+
+class ModuleListView(InstructorRequiredMixin, ListView):
+    model = Module
+    template_name = 'instructor/module_list.html'
+    context_object_name = "modules"
+
+    def get_queryset(self):
+        self.course = get_object_or_404(
+            Course, id=self.kwargs['course_id'], owner=self.request.user)
+        return self.course.modules.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course'] = self.course
+        return context

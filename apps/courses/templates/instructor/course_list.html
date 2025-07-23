@@ -31,7 +31,7 @@
                                 <h3 class="course-title">{{course.title}}</h3>
 
                             </div>
-                            <a href="#"><i class="fa-solid fa-eye"></i>Ver módulos</a>|
+                            <a href="{% url 'instructor:module_list' course.id %}"><i class="fa-solid fa-eye"></i>Ver módulos</a>|
                             <a href="{% url 'instructor:course_edit' course.id %}"><i class="fa-solid fa-pen-to-square"></i></a>|
                             <a href="{% url 'instructor:course_delete' course.id%}"><i class="fa-solid fa-trash"></i></a>
                         </div>
