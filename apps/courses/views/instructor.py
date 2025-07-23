@@ -96,3 +96,14 @@ class ModuleUpdateView(InstructorRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('instructor:module_list', args=[self.object.course.id])
+
+
+class ModuleDeleteView(InstructorRequiredMixin, DeleteView):
+    model = Module
+    template_name = 'instructor/module_confirm_delete.html'
+
+    def get_queryset(self):
+        return Module.objects.filter(course__owner=self.request.user)
+
+    def get_success_url(self):
+        return reverse('instructor:module_list', args=[self.object.course.id])
