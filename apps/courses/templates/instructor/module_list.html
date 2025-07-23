@@ -18,7 +18,7 @@
 
             <h2 class="form-title">Módulos de {{course.title}}</h2>
             <div class="add-new-course">
-                <a href="#">Agregar módulo</a>
+                <a href="{% url 'instructor:module_add' course.id %}">Agregar módulo</a>
             </div>
 
             <ul class="drag-list" id="module-list">

@@ -12,5 +12,7 @@ urlpatterns = [
          instructor.CourseDeleteView.as_view(), name="course_delete"),
     # Modules URLs
     path('course/<int:course_id>/modules/',
-         instructor.ModuleListView.as_view(), name='module_list')
+         instructor.ModuleListView.as_view(), name='module_list'),
+    path('course/<int:course_id>/modules/add',
+         instructor.ModuleCreateView.as_view(), name='module_add')
 ]
