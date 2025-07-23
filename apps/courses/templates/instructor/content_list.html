@@ -16,24 +16,29 @@
 
         <main>
 
-            <h2 class="form-title">Módulos de {{course.title}}</h2>
+            <h2 class="form-title">Contenidos del módulo: {{module.title}}</h2>
+            
+            <h3 class="add-new-course">Agregar módulo</h3>
             <div class="add-new-course">
-                <a href="{% url 'instructor:module_add' course.id %}">Agregar módulo</a>
+                <a href="#" class="button">Texto</a>
+                <a href="#" class="button">Imagen</a>
+                <a href="#" class="button">Archivo</a>
+                <a href="#" class="button">Video</a>
             </div>
 
             <ul class="drag-list" id="module-list">
                 
-                {% for module in modules  %}
+                {% for content in contents  %}
                     <li class="drag-item" data-id="{{module.id}}">
-                        <strong>{{module.title}}</strong>
+                        <strong>{{content.item.title}}</strong> <em>{{content.content_type.model}}</em>
                         <div class="actions">
-                            <a href="{% url 'content_list' module.id%}"><i class="fa-solid fa-eye"></i>Ver contenido</a>
-                            <a href="{% url 'module_edit' module.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="{% url 'module_delete' module.id %}"><i class="fa-solid fa-trash"></i></a>
+                            <a href="#"><i class="fa-solid fa-eye"></i>Ver contenido</a>
+                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     </li>
                     {%empty%}
-                        <li>No hay módulos aún.</li>
+                        <li>No hay contenidos aún.</li>
                 {% endfor %}
                     
 

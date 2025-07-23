@@ -18,5 +18,8 @@ urlpatterns = [
     path('modules/<int:pk>/edit/',
          instructor.ModuleUpdateView.as_view(), name='module_edit'),
     path('module/<int:pk>/delete/',
-         instructor.ModuleDeleteView.as_view(), name='module_delete')
+         instructor.ModuleDeleteView.as_view(), name='module_delete'),
+    # Contenido
+    path('module/<int:module_id>/contents/',
+         instructor.ContentListView.as_view(), name='content_list')
 ]
