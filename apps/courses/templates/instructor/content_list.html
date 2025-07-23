@@ -20,10 +20,10 @@
             
             <h3 class="add-new-course">Agregar módulo</h3>
             <div class="add-new-course">
-                <a href="#" class="button">Texto</a>
-                <a href="#" class="button">Imagen</a>
-                <a href="#" class="button">Archivo</a>
-                <a href="#" class="button">Video</a>
+                <a href="{% url 'instructor:content_add' module.id 'text' %}" class="button">Texto</a>
+                <a href="{% url 'instructor:content_add' module.id 'image' %}" class="button">Imagen</a>
+                <a href="{% url 'instructor:content_add' module.id 'file' %}" class="button">Archivo</a>
+                <a href="{% url 'instructor:content_add' module.id 'video' %}" class="button">Video</a>
             </div>
 
             <ul class="drag-list" id="module-list">
@@ -33,7 +33,7 @@
                         <strong>{{content.item.title}}</strong> <em>{{content.content_type.model}}</em>
                         <div class="actions">
                             <a href="#"><i class="fa-solid fa-eye"></i>Ver contenido</a>
-                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{% url 'instructor:content_edit' module.id content.item.id content.content_type.model %}"><i class="fa-solid fa-pen-to-square"></i></a>
                             <a href="#"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     </li>
