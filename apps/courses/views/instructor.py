@@ -6,7 +6,9 @@ from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms.models import modelform_factory
 from django.contrib.contenttypes.models import ContentType
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
+from django.utils.decorators import method_decorator
+import json
 
 CONTENT_MODELS = {
     'text': Text,
@@ -73,7 +75,7 @@ class ModuleListView(InstructorRequiredMixin, ListView):
     def get_queryset(self):
         self.course = get_object_or_404(
             Course, id=self.kwargs['course_id'], owner=self.request.user)
-        return self.course.modules.all()
+        return self.course.modules.all().order_by('order')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -193,3 +195,22 @@ class ContentDeleteView(InstructorRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('instructor:content_list', args=[self.object.module.id])
+
+
+# @method_decorator(csrf_exempt, name='dispatch')
+class ModuleOrderView(InstructorRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            order = data.get('order', [])
+
+            # {2,3,4,5} -> {0: 4,1: 2,5,3}
+            for index, module_id in enumerate(order):
+                print(module_id)
+                modules = Module.objects.filter(
+                    id=module_id, course__owner=request.user).update(order=index)
+                print("modules", modules)
+
+            return JsonResponse({'status': 'ok'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
