@@ -197,7 +197,6 @@ class ContentDeleteView(InstructorRequiredMixin, DeleteView):
         return reverse('instructor:content_list', args=[self.object.module.id])
 
 
-# @method_decorator(csrf_exempt, name='dispatch')
 class ModuleOrderView(InstructorRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         try:
@@ -206,11 +205,24 @@ class ModuleOrderView(InstructorRequiredMixin, View):
 
             # {2,3,4,5} -> {0: 4,1: 2,5,3}
             for index, module_id in enumerate(order):
-                print(module_id)
                 modules = Module.objects.filter(
                     id=module_id, course__owner=request.user).update(order=index)
-                print("modules", modules)
 
+            return JsonResponse({'status': 'ok'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
+class ContentOrderView(InstructorRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            order = data.get('order', [])
+
+            # {2,3,4,5} -> {0: 4,1: 2,5,3}
+            for index, content_id in enumerate(order):
+                Content.objects.filter(
+                    id=content_id, module__course__owner=request.user).update(order=index)
             return JsonResponse({'status': 'ok'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

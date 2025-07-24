@@ -30,5 +30,6 @@ urlpatterns = [
          instructor.ContentDeleteView.as_view(), name='content_delete'),
 
     # order
-    path('module/order/', instructor.ModuleOrderView.as_view(), name="module_order")
+    path('module/order/', instructor.ModuleOrderView.as_view(), name="module_order"),
+    path('content/order/', instructor.ContentOrderView.as_view(), name="content_order")
 ]
