@@ -6,4 +6,5 @@ from .models.progress import Progress
 from .models.enrollment import Enrollment
 from .models.review import Review
 from .models.content import Content, Text, Video, File, Image
+from .models.progress_tracking import CompletedContent
 # Create your models here.
