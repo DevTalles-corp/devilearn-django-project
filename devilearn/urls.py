@@ -22,7 +22,7 @@ from apps.dashboard.views import redirect_home
 urlpatterns = [
     path('', redirect_home, name='home'),
     path('admin/', admin.site.urls),
-    path('courses/', include("apps.courses.urls")),
+    # path('courses/', include("apps.courses.urls")),
     path('dashboard/', include("apps.dashboard.urls")),
     path('profile/', include("apps.profiles.urls")),
     path('login/', LoginView.as_view(), name='login'),

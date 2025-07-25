@@ -152,3 +152,15 @@ form button {
 .drag-item .actions a:hover {
     text-decoration: underline;
 }
+
+.btn-logout {
+    background-color: transparent;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+}
+
+.form-logout {
+    background: transparent;
+    padding: 0px;
+}
