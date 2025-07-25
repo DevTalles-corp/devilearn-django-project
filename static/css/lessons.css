@@ -209,3 +209,34 @@ video {
         padding: 1rem;
     }
 }
+
+.completed {
+    color: green;
+    font-weight: bold;
+}
+
+.active-content {
+    background: #f0f8ff;
+}
+
+
+
+
+.search-results {
+    background: white;
+    border: 1px solid #ccc;
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-results li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.search-results li:hover {
+    background-color: #f5f5f5;
+}
