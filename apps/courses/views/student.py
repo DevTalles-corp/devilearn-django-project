@@ -6,9 +6,11 @@ from ..models.content import Content
 from ..models.progress import Progress
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
+@login_required
 def course_list(request):
     courses = Course.objects.all()
     query = request.GET.get("q")
@@ -34,6 +36,7 @@ def course_list(request):
     })
 
 
+@login_required
 def course_detail(request, slug):
     course = get_object_or_404(Course, slug=slug)
     modules = course.modules.prefetch_related('contents').order_by('order')
@@ -45,6 +48,7 @@ def course_detail(request, slug):
     })
 
 
+@login_required
 def course_lessons(request, slug, content_id=None):
     course = get_object_or_404(Course, slug=slug)
     course_title = course.title
@@ -90,6 +94,7 @@ def course_lessons(request, slug, content_id=None):
                   })
 
 
+@login_required
 def mark_complete(request, content_id):
     content = get_object_or_404(Content, id=content_id)
     CompletedContent.objects.get_or_create(user=request.user, content=content)
