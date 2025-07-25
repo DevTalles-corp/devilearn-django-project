@@ -58,7 +58,7 @@ def course_lessons(request, slug, content_id=None):
     total_contents = len(all_contents)
 
     completed = CompletedContent.objects.filter(
-        user=request.user, content__in=all_contents).value_list('content_id', flat=True)
+        user=request.user, content__in=all_contents).values_list('content_id', flat=True)
 
     # progress by module
     for module in modules:
@@ -85,7 +85,7 @@ def course_lessons(request, slug, content_id=None):
                       'modules': modules,
                       'course': course,
                       'completed_ids': set(completed),
-                      'current_cotent': current_content,
+                      'current_content': current_content,
                       'progress': int(progress)
                   })
 
@@ -97,7 +97,7 @@ def mark_complete(request, content_id):
     next_content = Content.objects.filter(
         module=content.module,
         order__gt=content.order
-    ).order_by('order')
+    ).order_by('order').first()
 
     if next_content:
         return redirect('student:course_lessons', slug=content.module.course.slug, content_id=next_content.id)
