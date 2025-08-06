@@ -9,11 +9,14 @@ TIMEZONE_CHOICES = [
 
 
 class ProfileForm(forms.ModelForm):
+    email = forms.EmailField(label="Email")
+    first_name = forms.CharField(label="First Name")
+    last_name = forms.CharField(label="Last name")
 
     class Meta:
         model = Profile
         fields = ['photo', 'company', 'profession', 'timezone']
-        widget = {
+        widgets = {
             'timezone': forms.Select(choices=TIMEZONE_CHOICES)
         }
 
