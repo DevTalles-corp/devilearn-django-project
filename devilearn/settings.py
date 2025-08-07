@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.profiles.context_processors.profile_picture'
             ],
         },
     },
@@ -132,6 +133,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'profiles.User'
 
-LOGIN_REDIRECT_URL = "course_list"
+LOGIN_REDIRECT_URL = "student:course_list"
 LOGOUT_REDIRECT_URL = "login"
 LOGIN_URL = "login"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from apps.dashboard.views import redirect_home
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', redirect_home, name='home'),
@@ -30,3 +32,7 @@ urlpatterns = [
     path('instructor/', include("apps.courses.urls.instructor")),
     path('student/', include("apps.courses.urls.student")),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
