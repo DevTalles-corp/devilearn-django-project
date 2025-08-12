@@ -1,5 +1,7 @@
 from django import forms
 from .models import Profile
+from django.contrib.auth.forms import UserCreationForm
+from .models import User as CustomUser
 
 TIMEZONE_CHOICES = [
     ("UTC-6", "UTC-6 Ciudad de México"),
@@ -42,3 +44,20 @@ class ProfileForm(forms.ModelForm):
             profile.save()
 
         return profile
+
+
+class CustomRegisterForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True, label='Nombre')
+    last_name = forms.CharField(max_length=30, required=True, label='Apellido')
+    email = forms.EmailField(required=True, label='Correo electrónico')
+
+    class Meta:
+        model = CustomUser
+        fields = ("username", "first_name", "last_name",
+                  "email", "password1", "password2")
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este correo ya está registrado")
+        return email
