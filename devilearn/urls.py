@@ -35,6 +35,7 @@ urlpatterns = [
          name='change_password'),
     path('instructor/', include("apps.courses.urls.instructor")),
     path('student/', include("apps.courses.urls.student")),
+    path('support/', include("apps.support.urls"))
 ]
 
 if settings.DEBUG:
