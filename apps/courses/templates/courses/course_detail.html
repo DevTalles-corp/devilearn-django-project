@@ -55,6 +55,10 @@
                                     </ul>
                                 </div>
                                 </div>
+                            {% empty %}
+                                <div>
+                                    <p>Sin contenido aún</p>
+                                </div>
                             {% endfor %}
                                 
                             <!-- Agrega más secciones similares -->
@@ -76,7 +80,24 @@
                                 <li><i class="fa-solid fa-video"></i> {{ course.duration }} horas de contenido en video</li>
                                 <li><i class="fa-solid fa-graduation-cap"></i> {{ course.owner.get_full_name }}</li>
                             </ul>
-                            <a class="btn bnt-primary btn-course" href="{% url 'student:course_lessons' slug=course.slug%}">Continuar aprendiendo</a>
+                            <a class="btn bnt-primary btn-course" 
+                            
+                            {% if is_enrolled %}
+                                href="{% url 'student:course_lessons' slug=course.slug%}"
+                            {% else %}
+                                href="javascript:void(0)"
+                                onclick="confirmEnrollment('{% url 'student:course_lessons' slug=course.slug %}')"
+                            {% endif %}
+                                
+                            >
+                                
+                                {% if is_enrolled %}
+                                    Continuar aprendiendo
+                                {% else %}
+                                    Inscribirse 
+                                {% endif %}
+                                    
+                            </a>
 
                         </div>
                     </div>
@@ -87,7 +108,26 @@
 {% endblock content %}
     
 {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="{% static 'js/script.js'%}"></script>
+<script>
+    function confirmEnrollment(url){
+        Swal.fire({
+            title: "¿Quieres inscribirte?",
+            text: "Podrás acceder a todas las lecciones de este curso.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: 'Sí, inscribirme',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) =>{
+            if(result.isConfirmed){
+                window.location.href = url;
+            }
+        })
+    }
+</script>
 {% endblock scripts %}
     
 

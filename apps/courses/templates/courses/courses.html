@@ -22,6 +22,20 @@
                 <!-- === COURSE CARDS === -->
 
                 <div class="carousel-wrapper">
+                    <div class="filter-buttons">
+                        <a href="?filter=all{% if query %}&q={{query}}{%endif%}"
+                        class="{%if filter_type == 'all'%}active{%endif%}">
+                            Todos
+                        </a>
+                        <a href="?filter=enrolled{% if query %}&q={{query}}{%endif%}"
+                        class="{%if filter_type == 'enrolled'%}active{%endif%}">
+                            Inscritos
+                        </a>
+                        <a href="?filter=not_enrolled{% if query %}&q={{query}}{%endif%}"
+                        class="{%if filter_type == 'not_enrolled'%}active{%endif%}">
+                            No inscritos
+                        </a>
+                    </div>
                     <div class="course-grid">  
                             {% for course in courses_obj %}
                                 <div class="course-card">
@@ -50,15 +64,22 @@
                     <div class="paginator">
                         
                         {% if courses_obj.has_previous %}
-                            <a href="?page=1&{{query_string}}">Primera</a>
-                            <a href="?page={{courses_obj.previous_page_number}}&{{query_string}}">Anterior</a>
+                            <a class="page-btn" href="?page=1&{{query_string}}">Primera</a>
+                            <a class="page-btn" href="?page={{courses_obj.previous_page_number}}&{{query_string}}">Anterior</a>
+                        
+                        {% else %}
+                            <span class="page-btn disabled" aria-disabled="true">Primera</span>
+                            <span class="page-btn disabled" aria-disabled="true">Anterior</span>
                         {% endif %}
 
-                        <span>Página {{courses_obj.number}} de {{courses_obj.paginator.num_pages}}</span>
+                        <span class="page-info">Página {{courses_obj.number}} de {{courses_obj.paginator.num_pages}}</span>
 
                         {% if courses_obj.has_next %}
-                            <a href="?page={{courses_obj.next_page_number}}&{{query_string}}">Siguiente</a>
-                            <a href="?page={{courses_obj.paginator.num_pages}}&{{query_string}}">Última</a>
+                            <a class="page-btn" href="?page={{courses_obj.next_page_number}}&{{query_string}}">Siguiente</a>
+                            <a class="page-btn" href="?page={{courses_obj.paginator.num_pages}}&{{query_string}}">Última</a>
+                        {% else %}
+                            <span class="page-btn disabled" aria-disabled="true">Siguiente</span>
+                            <span class="page-btn disabled" aria-disabled="true">Última</span>
                         {% endif %}
                             
                     </div>

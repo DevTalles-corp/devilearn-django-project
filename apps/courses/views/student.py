@@ -12,8 +12,16 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def course_list(request):
-    courses = Course.objects.all()
+    # courses = Course.objects.all()
     query = request.GET.get("q")
+    filter_type = request.GET.get("filter", "all")
+
+    if filter_type == "enrolled":
+        courses = Course.objects.filter(enrollment__user=request.user)
+    elif filter_type == "not_enrolled":
+        courses = Course.objects.exclude(enrollment__user=request.user)
+    else:
+        courses = Course.objects.all()
 
     if query:
         courses = courses.filter(
@@ -32,7 +40,8 @@ def course_list(request):
     return render(request, "courses/courses.html", {
         'courses_obj': courses_obj,
         'query': query,
-        'query_string': query_string
+        'query_string': query_string,
+        "filter_type": filter_type
     })
 
 
@@ -41,10 +50,15 @@ def course_detail(request, slug):
     course = get_object_or_404(Course, slug=slug)
     modules = course.modules.prefetch_related('contents').order_by('order')
     total_contents = sum(module.contents.count() for module in modules)
+
+    is_enrolled = Enrollment.objects.filter(
+        user=request.user, course=course).exists()
+
     return render(request, 'courses/course_detail.html', {
         'course': course,
         'modules': modules,
-        'total_contents': total_contents
+        'total_contents': total_contents,
+        'is_enrolled': is_enrolled
     })
 
 
