@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from apps.dashboard.views import redirect_home
+from django.conf import settings
+from django.conf.urls.static import static
+from apps.profiles.views import RegisterView, CustomPasswordChangeView
 
 urlpatterns = [
     path('', redirect_home, name='home'),
@@ -27,6 +30,14 @@ urlpatterns = [
     path('profile/', include("apps.profiles.urls")),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', RegisterView.as_view(), name='register'),
+    path('settings/password/', CustomPasswordChangeView.as_view(),
+         name='change_password'),
     path('instructor/', include("apps.courses.urls.instructor")),
     path('student/', include("apps.courses.urls.student")),
+    path('support/', include("apps.support.urls"))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

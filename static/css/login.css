@@ -66,3 +66,9 @@ body {
 .btn-submit:hover {
     background-color: #2563eb;
 }
+
+.form-footer,
+.form-footer a {
+    color: #fff;
+    text-align: center;
+}
