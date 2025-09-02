@@ -28,7 +28,15 @@ SECRET_KEY = 'django-insecure-$vc7d(254kwt5d+m2-+)rgok208^+h&z0rp+o&!b4rm4_1&u3)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "devilearn-django-project.onrender.com",
+    "www.devilearn-django-project.onrender.com"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://devilearn-django-project.onrender.com",
+    "https://www.devilearn-django-project.onrender.com"
+]
 
 
 # Application definition
